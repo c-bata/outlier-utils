@@ -2,16 +2,17 @@
 outlier-utils
 =============
 
+.. image:: https://travis-ci.org/c-bata/outlier-utils.svg
+    :target: https://travis-ci.org/c-bata/outlier-utils
+
 Utility library for detecting and removing outliers from normally distributed datasets using the Smirnov-Grubbs_ test.
 
 Requirements
 ------------
 
- - Python_ (version 2.7)
-  
- - SciPy_
-  
- - NumPy_
+- Python_ (version 2.7, 3.4 and 3.5)
+- SciPy_
+- NumPy_
 
 Overview
 --------
@@ -57,3 +58,9 @@ Examples
 .. _SciPy: https://www.scipy.org/
 .. _NumPy: http://www.numpy.org/
 .. _Python: https://www.python.org/
+
+License
+=======
+
+This software is licensed under the MIT License.
+
