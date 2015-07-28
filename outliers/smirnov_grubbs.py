@@ -105,8 +105,9 @@ def test(data, alpha=0.95):
     :return:
     """
     data = _check_type(data)
-    target_index = _test_once(data, alpha)
-    while target_index is not None:
-        data = _delete_item(data, target_index)
+    while True:
         target_index = _test_once(data, alpha)
+        if target_index is None:
+            break
+        data = _delete_item(data, target_index)
     return data
