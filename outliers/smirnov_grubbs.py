@@ -5,12 +5,15 @@
 """
 
 import numpy as np
+import pandas as pd
 from scipy import stats
 from math import sqrt
 
 
 def _check_type(data):
     if isinstance(data, np.ndarray):
+        return data
+    elif isinstance(data, pd.Series):
         return data
     elif isinstance(data, list):
         return np.array(data)
@@ -21,7 +24,7 @@ def _check_type(data):
 def _get_target_index(data):
     """最も平均値からの差が大きい値のindexを取得.
 
-    :param numpy.array data: データ群
+    :param numpy.array or pandas.Series data: データ群
     :return int: 最も平均値からの差が大きい値のindex
     """
     relative_values = data - data.mean()
@@ -31,7 +34,7 @@ def _get_target_index(data):
 def _get_g(data):
     """データセットを正規化し、検定の対象となる値を取得.
 
-    :param numpy.array data:
+    :param numpy.ndarray data:
     :return:
     """
     target_index = _get_target_index(data)
