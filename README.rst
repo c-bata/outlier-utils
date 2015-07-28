@@ -1,4 +1,6 @@
-# outlier-utils
+=============
+outlier-utils
+=============
 
 This is the utils library for removing outliers.
 
