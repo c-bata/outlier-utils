@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Smirnov-Grubbs test for outlier detection.
 
