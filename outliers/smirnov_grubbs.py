@@ -88,6 +88,15 @@ def _test_once(data, alpha):
     return
 
 
+def _delete_item(data, index):
+    if isinstance(data, pd.Series):
+        return data.drop(index)
+    elif isinstance(data, np.ndarray):
+        return np.delete(data, index)
+    else:
+        raise TypeError('データの型がおかしいです。')
+
+
 def test(data, alpha=0.95):
     """スミルノフグラブス検定をデータセットに対して適用し、残ったデータセットを返す.
 
@@ -98,6 +107,6 @@ def test(data, alpha=0.95):
     data = _check_type(data)
     target_index = _test_once(data, alpha)
     while target_index is not None:
-        data = np.delete(data, target_index)
+        data = _delete_item(data, target_index)
         target_index = _test_once(data, alpha)
     return data
