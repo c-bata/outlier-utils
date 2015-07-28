@@ -10,6 +10,9 @@ from scipy import stats
 from math import sqrt
 
 
+__all__ = ['test']
+
+
 def _check_type(data):
     if isinstance(data, np.ndarray):
         return data
@@ -94,7 +97,7 @@ def test(data, alpha=0.95):
     """
     data = _check_type(data)
     target_index = _test_once(data, alpha)
-    while target_index:
+    while target_index is not None:
         data = np.delete(data, target_index)
         target_index = _test_once(data, alpha)
     return data
