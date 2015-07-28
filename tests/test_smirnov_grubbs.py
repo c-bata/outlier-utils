@@ -7,25 +7,25 @@ from outliers import smirnov_grubbs as grubbs
 
 class SmirnovGrubbsTests(TestCase):
     def test_check_type_when_given_list(self):
-        dataset = [1, 10, 10, 10]
-        actual_dataset = grubbs._check_type(dataset)
-        self.assertIsInstance(actual_dataset, np.ndarray)
+        data = [1, 10, 10, 10]
+        actual_data = grubbs._check_type(data)
+        self.assertIsInstance(actual_data, np.ndarray)
 
     def test_check_type_when_given_pandas_series(self):
-        dataset = pd.Series([1, 10, 10, 10])
-        actual_dataset = grubbs._check_type(dataset)
-        self.assertIsInstance(actual_dataset, pd.Series)
+        data = pd.Series([1, 10, 10, 10])
+        actual_data = grubbs._check_type(data)
+        self.assertIsInstance(actual_data, pd.Series)
 
     def test_get_target_index_when_given_numpy_ndarray(self):
-        dataset = np.array([1, 10, 10, 10])
+        data = np.array([1, 10, 10, 10])
         expected_index = 0
-        actual_index = grubbs._get_target_index(dataset)
+        actual_index = grubbs._get_target_index(data)
         self.assertEqual(actual_index, expected_index)
 
     def test_get_target_index_when_given_pandas_series(self):
-        dataset = pd.Series([1, 10, 10, 10])
+        data = pd.Series([1, 10, 10, 10])
         expected_index = 0
-        actual_index = grubbs._get_target_index(dataset)
+        actual_index = grubbs._get_target_index(data)
         self.assertEqual(actual_index, expected_index)
 
     def test_test_once_when_given_series(self):
