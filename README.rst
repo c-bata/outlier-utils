@@ -4,6 +4,8 @@ outlier-utils
 
 .. image:: https://travis-ci.org/c-bata/outlier-utils.svg
     :target: https://travis-ci.org/c-bata/outlier-utils
+.. image:: https://coveralls.io/repos/c-bata/outlier-utils/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/c-bata/outlier-utils?branch=master
 
 Utility library for detecting and removing outliers from normally distributed datasets using the Smirnov-Grubbs_ test.
 
@@ -58,6 +60,7 @@ Examples
 .. _SciPy: https://www.scipy.org/
 .. _NumPy: http://www.numpy.org/
 .. _Python: https://www.python.org/
+
 
 License
 =======
