@@ -6,7 +6,7 @@ env:
   - TOXENV=py34
   - TOXENV=flake8
 install:
-  - pip install tox
+  - travis_wait 20 pip install tox
   - pip install pytest pytest-cov coveralls
 script:
   - tox
