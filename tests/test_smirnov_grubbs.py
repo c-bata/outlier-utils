@@ -19,13 +19,13 @@ class SmirnovGrubbsTests(TestCase):
     def test_get_target_index_when_given_numpy_ndarray(self):
         data = np.array([1, 10, 10, 10])
         expected_index = 0
-        actual_index = grubbs._get_target_index(data)
+        actual_index, _ = grubbs._get_target(data)
         self.assertEqual(actual_index, expected_index)
 
     def test_get_target_index_when_given_pandas_series(self):
         data = pd.Series([1, 10, 10, 10])
         expected_index = 0
-        actual_index = grubbs._get_target_index(data)
+        actual_index, _ = grubbs._get_target(data)
         self.assertEqual(actual_index, expected_index)
 
     def test_test_once_when_given_series(self):

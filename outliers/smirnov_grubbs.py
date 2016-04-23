@@ -23,25 +23,17 @@ def _check_type(data):
         raise TypeError('Unsupported data format')
 
 
-def _get_target_index(data):
-    """Compute the index of the farthest value from the sample mean. 
+def _get_target(data):
+    """Compute the index of the farthest value from the sample mean and its
+    distance. 
 
     :param numpy.array or pandas.Series data: data set
     :return int: the index of the element
     """
-    relative_values = data - data.mean()
-    return abs(relative_values).argmax()
-
-
-def _get_g(data):
-    """Compute the test statistic, G.
-
-    :param numpy.ndarray data: data set
-    :return: test statistic (G value)
-    """
-    target_index = _get_target_index(data)
-    absolute_normalized_data = abs((data - data.mean()) / data.std())
-    return absolute_normalized_data[target_index]
+    relative_values = abs(data - data.mean())
+    index = relative_values.argmax()
+    value = relative_values[index]
+    return index, value
 
 
 def _get_g_test(n, alpha):
@@ -70,12 +62,12 @@ def _test_once(data, alpha):
     :param float alpha: significance level
     :return: the index of the outlier if one if found; None otherwise
     """
-    target_index = _get_target_index(data)
-    g = _get_g(data)
+    target_index, value = _get_target(data)
+
+    g = value / data.std()
     g_test = _get_g_test(len(data), alpha)
-    if g > g_test:
-        return target_index
-    return
+    
+    return target_index if g > g_test else None
 
 
 def _delete_item(data, index):
