@@ -1,6 +1,5 @@
 """
-スミルノフグラブス検定による棄却検定。
-
+Smirnov-Grubbs test for outlier detection.
 
 """
 
@@ -21,24 +20,24 @@ def _check_type(data):
     elif isinstance(data, list):
         return np.array(data)
     else:
-        raise TypeError('データセットの型がおかしいです。')
+        raise TypeError('Unsupported data format')
 
 
 def _get_target_index(data):
-    """最も平均値からの差が大きい値のindexを取得.
+    """Compute the index of the farthest value from the sample mean. 
 
-    :param numpy.array or pandas.Series data: データ群
-    :return int: 最も平均値からの差が大きい値のindex
+    :param numpy.array or pandas.Series data: data set
+    :return int: the index of the element
     """
     relative_values = data - data.mean()
     return abs(relative_values).argmax()
 
 
 def _get_g(data):
-    """データセットを正規化し、検定の対象となる値を取得.
+    """Compute the test statistic, G.
 
-    :param numpy.ndarray data:
-    :return:
+    :param numpy.ndarray data: data set
+    :return: test statistic (G value)
     """
     target_index = _get_target_index(data)
     absolute_normalized_data = abs((data - data.mean()) / data.std())
@@ -46,39 +45,30 @@ def _get_g(data):
 
 
 def _get_g_test(n, alpha):
-    """有意点を返す。
-    有意点の求め方.
+    """Compute a significant value score following these steps, being n the
+    data set size and alpha the significance level:
 
-    1. t値を求める。
+    1. Find the upper critical value of the t-distribution with n-2 degrees of
+    freedom and a significance level of alpha/2n, t(alpha / 2n, n-2).
 
-      nをデータ数, alphaを有意水準とすると、
-      t(alpha / n, n-2)となるt値を探す。
+    2. Use this t value to find the score with the following formula:
+       ((n-1) / sqrt(n)) * (sqrt(t**2 / (n-2 + t**2)))
 
-      例えば棄却率5%, nが10の時、t(0.05, 8)を調べれば良い。
-
-    2. 有意点を求める
-
-      https://ja.wikipedia.org/wiki/外れ値
-
-      g_test = ((n-1) / sqrt(n)) * (sqrt(t**2 / (n-2 + t**2)))
-
-    :param int n: data size
-    :param float alpha: 有意水準(Significance level)
-    :return: Gtest
+    :param int n: data set size
+    :param float alpha: significance level
+    :return: G_test score
     """
-    t = stats.t.isf(alpha / (2*n), n-2)  # 両側検定の時は
+    t = stats.t.isf(alpha / (2*n), n-2)  # For two-sided tests
     g_test = ((n-1) / sqrt(n)) * (sqrt(t**2 / (n-2 + t**2)))
     return g_test
 
 
 def _test_once(data, alpha):
-    """データセットの中で1回だけスミルノフグラブス検定を行う
-    棄却検定に成功すればそのndarrayのインデックスを返す。
-    失敗すればNone。
+    """Perform one iteration of the Smirnov-Grubbs test.
 
-    :param numpy.array data: データセット
-    :param float alpha: 有意水準(Significance level)
-    :return:
+    :param numpy.array data: data set
+    :param float alpha: significance level
+    :return: the index of the outlier if one if found; None otherwise
     """
     target_index = _get_target_index(data)
     g = _get_g(data)
@@ -94,15 +84,15 @@ def _delete_item(data, index):
     elif isinstance(data, np.ndarray):
         return np.delete(data, index)
     else:
-        raise TypeError('データの型がおかしいです。')
+        raise TypeError('Unsupported data format')
 
 
 def test(data, alpha=0.95):
-    """スミルノフグラブス検定をデータセットに対して適用し、残ったデータセットを返す.
+    """Run the Smirnov-Grubbs test to remove outliers in the given data set.
 
-    :param numpy.array data: データセット
-    :param float alpha: 有意水準(Significance level)
-    :return:
+    :param numpy.array data: data set
+    :param float alpha: significance level
+    :return: data set without outliers
     """
     data = _check_type(data)
     while True:
