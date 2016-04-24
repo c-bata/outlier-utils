@@ -13,3 +13,4 @@ script:
 after_success:
   - py.test --cov outlier_utils tests
   - coveralls
+
