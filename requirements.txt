@@ -1,0 +1,6 @@
+numpy==1.9.2
+pandas==0.16.2
+scipy==0.16.0
+
+# Testing
+pytest==2.7.2

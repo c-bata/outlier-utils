@@ -7,7 +7,7 @@ BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(BASE_PATH, 'README.rst')).read()
 CHANGES = open(os.path.join(BASE_PATH, 'CHANGES.rst')).read()
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 __author__ = 'Masashi Shibata <contact@c-bata.link>'
 __author_email__ = 'contact@c-bata.link'
 __license__ = 'MIT License'
@@ -53,7 +53,7 @@ setup(
     author=__author__,
     author_email=__author_email__,
     url='https://github.com/c-bata/outlier-utils',
-    description='Remove outliers with some methods',
+    description='Utility library for detecting and removing outliers from normally distributed datasets',
     long_description=README + '\n\n' + CHANGES,
     packages=find_packages(exclude=['test*']),
     install_requirements=['numpy', 'scipy', 'pandas'],
@@ -64,3 +64,4 @@ setup(
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
 )
+
