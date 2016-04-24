@@ -4,11 +4,14 @@ Smirnov-Grubbs test for outlier detection.
 """
 
 import numpy as np
-import pandas as pd
 from scipy import stats
 from math import sqrt
 from collections import defaultdict
 
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 
 __all__ = ['test',
            'two_sided_test',
@@ -47,7 +50,7 @@ class GrubbsTest(object):
     def _copy_data(self):
         if isinstance(self.original_data, np.ndarray):
             return self.original_data
-        elif isinstance(self.original_data, pd.Series):
+        elif pd is not None and isinstance(self.original_data, pd.Series):
             return self.original_data
         elif isinstance(self.original_data, list):
             return np.array(self.original_data)
@@ -55,7 +58,7 @@ class GrubbsTest(object):
             raise TypeError('Unsupported data format')
 
     def _delete_item(self, data, index):
-        if isinstance(data, pd.Series):
+        if pd is not None and isinstance(data, pd.Series):
             return data.drop(index)
         elif isinstance(data, np.ndarray):
             return np.delete(data, index)

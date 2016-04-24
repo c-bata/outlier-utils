@@ -1,11 +1,15 @@
 from unittest import TestCase
 
 import numpy as np
-import pandas as pd
 
 from scipy import stats
 
 from outliers import smirnov_grubbs as grubbs
+
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 
 
 class SmirnovGrubbsTests(TestCase):
@@ -32,11 +36,12 @@ class SmirnovGrubbsTests(TestCase):
         self.assertIsInstance(copied_data, np.ndarray)
 
     def test_check_type_when_given_pandas_series(self):
-        data = pd.Series(self.data1)
-        grubbs_test = grubbs.TwoSidedGrubbsTest(data)
-        copied_data = grubbs_test._copy_data()
-        
-        self.assertIsInstance(copied_data, pd.Series)
+        if pd is not None:
+            data = pd.Series(self.data1)
+            grubbs_test = grubbs.TwoSidedGrubbsTest(data)
+            copied_data = grubbs_test._copy_data()
+            
+            self.assertIsInstance(copied_data, pd.Series)
 
     def test_get_target_index_when_given_numpy_ndarray(self):
         data = np.array(self.data1)
@@ -47,20 +52,22 @@ class SmirnovGrubbsTests(TestCase):
         self.assertEqual(actual_index, expected_index)
 
     def test_get_target_index_when_given_pandas_series(self):
-        data = pd.Series(self.data1)
-        grubbs_test = grubbs.TwoSidedGrubbsTest(data)
+        if pd is not None:
+            data = pd.Series(self.data1)
+            grubbs_test = grubbs.TwoSidedGrubbsTest(data)
+    
+            expected_index = 0
+            actual_index, _ = grubbs_test._target(data)
+            self.assertEqual(actual_index, expected_index)
 
-        expected_index = 0
-        actual_index, _ = grubbs_test._target(data)
-        self.assertEqual(actual_index, expected_index)
-
-    def test_test_once_when_given_series(self):
-        data = pd.Series(self.data2)
-        grubbs_test = grubbs.TwoSidedGrubbsTest(data)
-
-        expected_index = 0
-        actual_index = grubbs_test._test_once(data, 0.05)
-        self.assertEqual(actual_index, expected_index)
+    def test_test_once_when_given_pandas_series(self):
+        if pd is not None:
+            data = pd.Series(self.data2)
+            grubbs_test = grubbs.TwoSidedGrubbsTest(data)
+    
+            expected_index = 0
+            actual_index = grubbs_test._test_once(data, 0.05)
+            self.assertEqual(actual_index, expected_index)
 
     def test_test_once_when_given_numpy_ndarray(self):
         data = np.array(self.data2)
@@ -70,12 +77,13 @@ class SmirnovGrubbsTests(TestCase):
         actual_index = grubbs_test._test_once(data, 0.05)
         self.assertEqual(actual_index, expected_index)
 
-    def test_delete_item_when_given_series(self):
-        data = pd.Series(self.data3)
-        grubbs_test = grubbs.TwoSidedGrubbsTest(data)
-        
-        actual_data = grubbs_test._delete_item(data, 1)
-        self.assertEqual(len(actual_data), 3)
+    def test_delete_item_when_given_pandas_series(self):
+        if pd is not None:
+            data = pd.Series(self.data3)
+            grubbs_test = grubbs.TwoSidedGrubbsTest(data)
+            
+            actual_data = grubbs_test._delete_item(data, 1)
+            self.assertEqual(len(actual_data), 3)
 
     def test_delete_item_when_given_numpy_ndarray(self):
         data = np.array(self.data3)
