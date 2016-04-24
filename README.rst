@@ -24,6 +24,8 @@ Examples
 
 - Two-sided Grubbs test with a Pandas series input
 
+::
+
    >>> from outliers import smirnov_grubbs as grubbs
    >>> import pandas as pd
    >>> data = pd.Series([1, 8, 9, 10, 9])
@@ -36,6 +38,8 @@ Examples
    
 - Two-sided Grubbs test with a NumPy array input   
 
+::
+
    >>> import numpy as np
    >>> data = np.array([1, 8, 9, 10, 9])
    >>> grubbs.test(data, alpha=0.05)
@@ -43,10 +47,14 @@ Examples
    
 - One-sided (min) test returning outlier indices
 
+::
+
    >>> grubbs.min_test_indices([8, 9, 10, 1, 9], alpha=0.05)
    [3]
    
 - One-sided (max) tests returning outliers
+
+::
 
    >>> grubbs.max_test_outliers([8, 9, 10, 1, 9], alpha=0.05)
    []
