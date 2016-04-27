@@ -56,7 +56,7 @@ setup(
     description='Utility library for detecting and removing outliers from normally distributed datasets',
     long_description=README + '\n\n' + CHANGES,
     packages=find_packages(exclude=['test*']),
-    install_requirements=['numpy', 'scipy', 'pandas'],
+    install_requirements=['numpy', 'scipy'],
     keywords='outlier grubbs pandas numpy',
     license=__license__,
     include_package_data=True,
