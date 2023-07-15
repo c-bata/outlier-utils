@@ -65,7 +65,7 @@ class SmirnovGrubbsTests(TestCase):
             grubbs_test = grubbs.TwoSidedGrubbsTest(data)
 
             expected_index = 0
-            actual_index = grubbs_test._test_once(data, 0.05)
+            actual_index = grubbs_test._test_once(data, 0.05, 0)
             self.assertEqual(actual_index, expected_index)
 
     def test_test_once_when_given_numpy_ndarray(self):
@@ -73,7 +73,7 @@ class SmirnovGrubbsTests(TestCase):
         grubbs_test = grubbs.TwoSidedGrubbsTest(data)
 
         expected_index = 0
-        actual_index = grubbs_test._test_once(data, 0.05)
+        actual_index = grubbs_test._test_once(data, 0.05, 0)
         self.assertEqual(actual_index, expected_index)
 
     def test_delete_item_when_given_pandas_series(self):

@@ -31,6 +31,7 @@ __all__ = ['test',
 
 
 DEFAULT_ALPHA = 0.95
+DEFAULT_DDOF = 0
 
 
 # Test output types
@@ -93,23 +94,25 @@ class GrubbsTest(object):
         t = stats.t.isf(significance_level, n-2)
         return ((n-1) / sqrt(n)) * (sqrt(t**2 / (n-2 + t**2)))
 
-    def _test_once(self, data, alpha):
+    def _test_once(self, data, alpha, ddof):
         """Perform one iteration of the Smirnov-Grubbs test.
 
         :param numpy.array data: data set
         :param float alpha: significance level
+        :param int ddof: Means Delta Degrees of Freedom used in numpy.std
         :return: the index of the outlier if one if found; None otherwise
         """
         target_index, value = self._target(data)
 
-        g = value / data.std()
+        g = value / data.std(ddof=ddof)
         g_test = self._get_g_test(data, alpha)
         return target_index if g > g_test else None
 
-    def run(self, alpha=DEFAULT_ALPHA, output_type=OutputType.DATA):
+    def run(self, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF, output_type=OutputType.DATA):
         """Run the Smirnov-Grubbs test to remove outliers in the given data set.
 
         :param float alpha: significance level
+        :param int ddof: Means Delta Degrees of Freedom used in numpy.std
         :param int output_type: test output type (from OutputType class values)
         :return: depending on the value of output_type, the data set without
         outliers (DATA), the outliers themselves (OUTLIERS) or the indices of
@@ -119,7 +122,7 @@ class GrubbsTest(object):
         outliers = list()
 
         while True:
-            outlier_index = self._test_once(data, alpha)
+            outlier_index = self._test_once(data, alpha, ddof)
             if outlier_index is None:
                 break
             outlier = data[outlier_index]
@@ -187,57 +190,57 @@ class MaxValueGrubbsTest(OneSidedGrubbsTest):
 
 # Convenience functions to run single Grubbs tests
 
-def _test(test_class, data, alpha, output_type):
-    return test_class(data).run(alpha, output_type=output_type)
+def _test(test_class, data, alpha, ddof, output_type):
+    return test_class(data).run(alpha, ddof, output_type=output_type)
 
 
-def _two_sided_test(data, alpha, output_type):
-    return _test(TwoSidedGrubbsTest, data, alpha, output_type)
+def _two_sided_test(data, alpha, ddof, output_type):
+    return _test(TwoSidedGrubbsTest, data, alpha, ddof, output_type)
 
 
-def _min_test(data, alpha, output_type):
-    return _test(MinValueGrubbsTest, data, alpha, output_type)
+def _min_test(data, alpha, ddof, output_type):
+    return _test(MinValueGrubbsTest, data, alpha, ddof, output_type)
 
 
-def _max_test(data, alpha, output_type):
-    return _test(MaxValueGrubbsTest, data, alpha, output_type)
+def _max_test(data, alpha, ddof, output_type):
+    return _test(MaxValueGrubbsTest, data, alpha, ddof, output_type)
 
 
-def two_sided_test(data, alpha=DEFAULT_ALPHA):
-    return _two_sided_test(data, alpha, OutputType.DATA)
+def two_sided_test(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _two_sided_test(data, alpha, ddof, OutputType.DATA)
 
 
-def two_sided_test_indices(data, alpha=DEFAULT_ALPHA):
-    return _two_sided_test(data, alpha, OutputType.INDICES)
+def two_sided_test_indices(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _two_sided_test(data, alpha, ddof, OutputType.INDICES)
 
 
-def two_sided_test_outliers(data, alpha=DEFAULT_ALPHA):
-    return _two_sided_test(data, alpha, OutputType.OUTLIERS)
+def two_sided_test_outliers(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _two_sided_test(data, alpha, ddof, OutputType.OUTLIERS)
 
 
-def min_test(data, alpha=DEFAULT_ALPHA):
-    return _min_test(data, alpha, OutputType.DATA)
+def min_test(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _min_test(data, alpha, ddof, OutputType.DATA)
 
 
-def min_test_indices(data, alpha=DEFAULT_ALPHA):
-    return _min_test(data, alpha, OutputType.INDICES)
+def min_test_indices(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _min_test(data, alpha, ddof, OutputType.INDICES)
 
 
-def min_test_outliers(data, alpha=DEFAULT_ALPHA):
-    return _min_test(data, alpha, OutputType.OUTLIERS)
+def min_test_outliers(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _min_test(data, alpha, ddof, OutputType.OUTLIERS)
 
 
-def max_test(data, alpha=DEFAULT_ALPHA):
-    return _max_test(data, alpha, OutputType.DATA)
+def max_test(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _max_test(data, alpha, ddof, OutputType.DATA)
 
 
-def max_test_indices(data, alpha=DEFAULT_ALPHA):
-    return _max_test(data, alpha, OutputType.INDICES)
+def max_test_indices(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _max_test(data, alpha, ddof, OutputType.INDICES)
 
 
-def max_test_outliers(data, alpha=DEFAULT_ALPHA):
-    return _max_test(data, alpha, OutputType.OUTLIERS)
+def max_test_outliers(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return _max_test(data, alpha, ddof, OutputType.OUTLIERS)
 
 
-def test(data, alpha=DEFAULT_ALPHA):
-    return two_sided_test(data, alpha)
+def test(data, alpha=DEFAULT_ALPHA, ddof=DEFAULT_DDOF):
+    return two_sided_test(data, ddof, alpha)
