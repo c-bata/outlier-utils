@@ -2,5 +2,10 @@ numpy
 pandas
 scipy
 
+# Lint
+flake8
+black
+isort
+
 # Testing
 pytest

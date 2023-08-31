@@ -4,30 +4,33 @@ Smirnov-Grubbs test for outlier detection.
 
 """
 
+from collections import defaultdict
+from math import sqrt
+
 import numpy as np
 from scipy import stats
-from math import sqrt
-from collections import defaultdict
 
 try:
     import pandas as pd
 except ImportError:
     pd = None
 
-__all__ = ['test',
-           'two_sided_test',
-           'two_sided_test_indices',
-           'two_sided_test_outliers',
-           'min_test',
-           'min_test_indices',
-           'min_test_outliers',
-           'max_test',
-           'max_test_indices',
-           'max_test_outliers',
-           'TwoSidedGrubbsTest',
-           'MinValueGrubbsTest',
-           'MaxValueGrubbsTest',
-           'OutputType']
+__all__ = [
+    "test",
+    "two_sided_test",
+    "two_sided_test_indices",
+    "two_sided_test_outliers",
+    "min_test",
+    "min_test_indices",
+    "min_test_outliers",
+    "max_test",
+    "max_test_indices",
+    "max_test_outliers",
+    "TwoSidedGrubbsTest",
+    "MinValueGrubbsTest",
+    "MaxValueGrubbsTest",
+    "OutputType",
+]
 
 
 DEFAULT_ALPHA = 0.95
@@ -52,7 +55,7 @@ class GrubbsTest(object):
         elif isinstance(self.original_data, list):
             return np.array(self.original_data)
         else:
-            raise TypeError('Unsupported data format')
+            raise TypeError("Unsupported data format")
 
     def _delete_item(self, data, index):
         if pd is not None and isinstance(data, pd.Series):
@@ -60,7 +63,7 @@ class GrubbsTest(object):
         elif isinstance(data, np.ndarray):
             return np.delete(data, index)
         else:
-            raise TypeError('Unsupported data format')
+            raise TypeError("Unsupported data format")
 
     def _get_indices(self, values):
         last_seen = defaultdict(lambda: 0)
@@ -90,8 +93,8 @@ class GrubbsTest(object):
         """
         n = len(data)
         significance_level = self._get_t_significance_level(alpha, n)
-        t = stats.t.isf(significance_level, n-2)
-        return ((n-1) / sqrt(n)) * (sqrt(t**2 / (n-2 + t**2)))
+        t = stats.t.isf(significance_level, n - 2)
+        return ((n - 1) / sqrt(n)) * (sqrt(t**2 / (n - 2 + t**2)))
 
     def _test_once(self, data, alpha):
         """Perform one iteration of the Smirnov-Grubbs test.
@@ -155,7 +158,7 @@ class TwoSidedGrubbsTest(GrubbsTest):
         return index, value
 
     def _get_t_significance_level(self, alpha, n):
-        return alpha / (2*n)
+        return alpha / (2 * n)
 
 
 class OneSidedGrubbsTest(GrubbsTest):
@@ -186,6 +189,7 @@ class MaxValueGrubbsTest(OneSidedGrubbsTest):
 
 
 # Convenience functions to run single Grubbs tests
+
 
 def _test(test_class, data, alpha, output_type):
     return test_class(data).run(alpha, output_type=output_type)
