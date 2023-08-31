@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+0.0.4 (2023-09-01)
+------------------
+
+- Update supported Python versions to 3.8 or later.
+- Use new style classes.
+- Migrate to pyproject.toml.
+
 0.0.3 (2016-04-25)
 ------------------
 
