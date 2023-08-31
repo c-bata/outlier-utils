@@ -7,7 +7,7 @@ Utility library for detecting and removing outliers from normally distributed da
 Requirements
 ------------
 
-- Python_ (version 2.7, 3.4 and 3.5)
+- Python_ (version 3.6 or later)
 - SciPy_
 - NumPy_
 
