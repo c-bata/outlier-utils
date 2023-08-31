@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
+from __future__ import annotations
+
+
 """
 Smirnov-Grubbs test for outlier detection.
-
 """
 
 from collections import defaultdict
@@ -9,6 +10,7 @@ from math import sqrt
 
 import numpy as np
 from scipy import stats
+
 
 try:
     import pandas as pd
@@ -43,7 +45,7 @@ class OutputType:
     INDICES = 2  # Output outlier indices
 
 
-class GrubbsTest(object):
+class GrubbsTest:
     def __init__(self, data):
         self.original_data = data
 

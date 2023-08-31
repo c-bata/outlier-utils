@@ -5,6 +5,7 @@ from scipy import stats
 
 from outliers import smirnov_grubbs as grubbs
 
+
 try:
     import pandas as pd
 except ImportError:
