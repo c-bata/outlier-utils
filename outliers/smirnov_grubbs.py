@@ -155,7 +155,10 @@ class TwoSidedGrubbsTest(GrubbsTest):
         mean
         """
         relative_values = abs(data - data.mean())
-        index = relative_values.argmax()
+        if isinstance(relative_values, pd.Series):
+            index = relative_values.idxmax()
+        else:
+            index = relative_values.argmax()
         value = relative_values[index]
         return index, value
 

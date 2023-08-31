@@ -115,3 +115,8 @@ class SmirnovGrubbsTests(TestCase):
 
         self.assertIn(self.rvs.max(), outliers)
         self.assertNotIn(self.rvs.min(), outliers)
+
+
+def test_issue_6():
+    data = pd.Series([1, 8, 9, 10, 9])
+    grubbs.test(data, alpha=0.05)
