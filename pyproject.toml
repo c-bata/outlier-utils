@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "outlier_utils"
 description = "Utility library for detecting and removing outliers from normally distributed datasets"
-readme = "README.md"
+readme = "README.rst"
 authors = [
     { name = "Masashi Shibata", "email" = "contact@c-bata.link" }
 ]

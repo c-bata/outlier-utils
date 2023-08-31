@@ -1,5 +1,4 @@
 numpy
-pandas
 scipy
 
 # Lint
@@ -9,3 +8,4 @@ isort
 
 # Testing
 pytest
+pandas
