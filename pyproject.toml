@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "outlier_utils"
+name = "outlier-utils"
 description = "Utility library for detecting and removing outliers from normally distributed datasets"
 readme = "README.rst"
 authors = [
